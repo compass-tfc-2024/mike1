@@ -6,74 +6,30 @@
   <style>
     body {
       font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    h2 {
       padding: 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-    img {
-      max-width: 100%;
-    }
-    input, button {
-      font-size: 1.2em;
-      padding: 10px;
-      margin-top: 10px;
-    }
-    #replyText {
-      margin-top: 20px;
-      font-weight: bold;
-      font-size: 1.2em;
       color: #2a5d84;
+    }
+    iframe {
+      width: 100%;
+      height: 100vh;
+      min-height: 700px;
+      border: none;
     }
   </style>
 </head>
 <body>
-  <h2>🍎 Which fruit is red?</h2>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/320px-Red_Apple.jpg" alt="apple image">
-  
-  <p>请孩子说一句英语：如 “The apple is red.”</p>
 
-  <input type="text" id="childInput" placeholder="请输入语音识别结果">
-  <button onclick="sendToLeo()">提交</button>
+  <h2>🍎 Leo 老师英语对话练习</h2>
 
-  <div id="replyText">等待 AI 回复…</div>
+  <iframe
+    src="https://udify.app/chatbot/2wCOGybT3Qdh0qlE"
+    allow="microphone">
+  </iframe>
 
-  <script>
-    function speak(text) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      speechSynthesis.speak(utterance);
-    }
-
-    async function sendToLeo() {
-      const input = document.getElementById("childInput").value;
-      const replyDiv = document.getElementById("replyText");
-
-      try {
-        const response = await fetch("https://api.dify.ai/v1/chat-messages", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer sk-你的API密钥"  // 👈 替换为你的 Dify API Key
-          },
-          body: JSON.stringify({
-            app_id: "app-你的AppID",  // 👈 替换为你的 App ID
-            inputs: {
-              question: "Which fruit is red?",
-              child_answer: input
-            },
-            response_mode: "blocking"
-          })
-        });
-
-        const data = await response.json();
-        const reply = data.answer || "Sorry, I didn't understand. Try again!";
-        replyDiv.textContent = reply;
-        speak(reply);
-      } catch (error) {
-        replyDiv.textContent = "❌ 出错了，请检查网络或API配置。";
-        console.error(error);
-      }
-    }
-  </script>
 </body>
 </html>
