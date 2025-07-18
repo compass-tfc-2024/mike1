@@ -48,17 +48,31 @@
       const input = document.getElementById("childInput").value;
       const replyDiv = document.getElementById("replyText");
 
-      // 模拟 Dify 返回结果（替换成真实 API 调用）
-      let simulatedReply = "";
+      try {
+        const response = await fetch("https://api.dify.ai/v1/chat-messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer sk-你的API密钥"  // 👈 替换为你的 Dify API Key
+          },
+          body: JSON.stringify({
+            app_id: "app-你的AppID",  // 👈 替换为你的 App ID
+            inputs: {
+              question: "Which fruit is red?",
+              child_answer: input
+            },
+            response_mode: "blocking"
+          })
+        });
 
-      if (input.toLowerCase().includes("apple")) {
-        simulatedReply = "Great job! The apple is red. 🍎";
-      } else {
-        simulatedReply = "Hmm, not quite. Try again and look for something red.";
+        const data = await response.json();
+        const reply = data.answer || "Sorry, I didn't understand. Try again!";
+        replyDiv.textContent = reply;
+        speak(reply);
+      } catch (error) {
+        replyDiv.textContent = "❌ 出错了，请检查网络或API配置。";
+        console.error(error);
       }
-
-      replyDiv.textContent = simulatedReply;
-      speak(simulatedReply);
     }
   </script>
 </body>
