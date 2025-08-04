@@ -1,35 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Leo 老师儿童英语练习</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    h2 {
-      padding: 20px;
-      color: #2a5d84;
-    }
-    iframe {
-      width: 100%;
-      height: 100vh;
-      min-height: 700px;
-      border: none;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <title>Dify 参数调用示例</title>
 </head>
 <body>
+  <h2>请输入内容：</h2>
+  <input type="text" id="userInput" style="width: 300px;" />
+  <button onclick="loadDify()">发送到 Dify</button>
 
-  <h2>🍎 Leo 老师英语对话练习</h2>
-
-  <iframe
-    src="https://udify.app/chatbot/2wCOGybT3Qdh0qlE"
+  <h2>大模型分析：</h2>
+  <iframe id="difyFrame"
+    style="width: 100%; height: 700px;"
+    frameborder="0"
     allow="microphone">
   </iframe>
 
+  <script>
+    function loadDify() {
+      const input = document.getElementById('userInput').value;
+      const encodedInput = encodeURIComponent(input);
+      const chatbotId = "2wCOGybT3Qdh0qlE";  // 替换成你的 Chatbot ID
+      const url = `https://udify.app/chatbot/${chatbotId}?input_text=${encodedInput}`;
+      document.getElementById('difyFrame').src = url;
+    }
+  </script>
 </body>
 </html>
